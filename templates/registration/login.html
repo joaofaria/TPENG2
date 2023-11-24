@@ -1,0 +1,19 @@
+<head>
+
+</head>
+<body>
+
+    <form method="POST"> 
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="username">
+        <br>
+        <br>
+        <input type="password" name="password" placeholder="password">
+        <br>
+        <br>
+        <input type="submit" value = "login">
+    </form>
+    {% for k, v in form.erros.items %}
+        {{ v }}
+    {% endfor %}
+</body>
