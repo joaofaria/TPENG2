@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  {% load static %}
+  <title>Início</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+  <style>
+    
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <!-- Logo -->
+
+  
+      <nav>
+        <ul>
+          <li><img src="{% static 'images/icone.png' %}" alt="Logo da Empresa" id='logo'></li>
+          <li><a href="{% url 'index'%}">Início</a></li>
+          <li><a href="{% url 'produtos'%}">Produtos</a></li>
+          <li><a href="{% url 'logout'%}">Sair</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+<!-- Seu conteúdo principal aqui -->
+<div class="container">
+  {% block content %}
+  {% endblock %}
+</div>
+</body>
+</html>

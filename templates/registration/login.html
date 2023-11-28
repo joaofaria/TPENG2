@@ -1,19 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <li><img src="{% static 'images/icone.png' %}" alt="Logo da Empresa" id='logo'></li>
+    <title>Login</title>
 </head>
 <body>
 
-    <form method="POST"> 
-        {% csrf_token %}
-        <input type="text" name="username" placeholder="username">
-        <br>
-        <br>
-        <input type="password" name="password" placeholder="password">
-        <br>
-        <br>
-        <input type="submit" value = "login">
-    </form>
-    {% for k, v in form.erros.items %}
-        {{ v }}
-    {% endfor %}
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="POST" id="login-form"> 
+            {% csrf_token %}
+
+            <input type="text" name="username" id="username" placeholder="Usuário">
+            <br><br>
+            <span class="error-message" id="username-error"></span>
+            <input type="password" name="password" id="password" placeholder="Senha">
+            <br><br>
+            <span class="error-message" id="password-error"></span>
+            <input type="submit" value="Entrar">
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('login-form');
+        form.addEventListener('submit', function(event) {
+            const username = document.getElementById('username');
+            const password = document.getElementById('password');
+            const usernameError = document.getElementById('username-error');
+            const passwordError = document.getElementById('password-error');
+
+            usernameError.textContent = '';
+            passwordError.textContent = '';
+
+            if (username.value.trim() === '') {
+                usernameError.textContent = 'Username is required';
+                event.preventDefault();
+            }
+
+            if (password.value.trim() === '') {
+                passwordError.textContent = 'Password is required';
+                event.preventDefault();
+            }
+        });
+    </script>
+
 </body>
+</html>
