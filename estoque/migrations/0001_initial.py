@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('valor_custo', models.FloatField(default=0)),
                 ('valor_venda', models.FloatField(default=0)),
                 ('visivel', models.BooleanField(default=False)),
-                ('categoria', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='stock.categoria')),
+                ('categoria', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='estoque.categoria')),
             ],
         ),
     ]

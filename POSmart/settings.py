@@ -31,14 +31,24 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "stock.apps.StockConfig",
+    "estoque.apps.EstoqueConfig",
+    "funcionarios.apps.FuncionariosConfig",
+    "administracao.apps.AdministracaoConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap5',
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
+
+#Crispy Forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -125,7 +135,7 @@ ALLOWED_HOSTS=["127.0.0.1", "192.168.8.13", "localhost"]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = '/stock'
+LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
 

@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.urls import include, path
-from . import views
 from django.shortcuts import redirect
+from . import views
 
 urlpatterns = [
-    path("", lambda request: redirect('login'), name="index_redirect"),
-    path("stock/", include("stock.urls")),
+    path("", views.index, name="mainIndex" ),
+    path("estoque/", include("estoque.urls")),
     path('admin/', admin.site.urls),
-    path("accounts/", include('django.contrib.auth.urls'))
+    path("accounts/", include('django.contrib.auth.urls')),
+    path("funcionarios/", include("funcionarios.urls")),
 ]

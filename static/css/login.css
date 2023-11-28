@@ -8,15 +8,16 @@ body {
     align-items: center;
     height: 100vh;
 }
+
+img {
+    max-width: 800px
+}
 .login-container {
     background-color: #fff;
-    padding: 40px;
+    padding: 60px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-}
-.login-container h2 {
-    margin-bottom: 20px;
 }
 .login-container form {
     display: flex;
@@ -26,7 +27,6 @@ body {
 .login-container input[type="password"],
 .login-container input[type="submit"] {
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;

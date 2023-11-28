@@ -1,0 +1,46 @@
+{% extends 'POSmart/base.html' %}
+
+{% block content %}
+<br>
+<h3>Lista de produtos cadastrados</h3>
+<a href="{% url 'cadastrar-produto' %}" class="btn btn-primary">Cadastrar produto</a>
+<a href="{% url 'cadastrar-categoria' %}" class="btn btn-primary">Criar categoria</a>
+<hr>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Categoria</th>
+                <th>Disponível</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in object_list %}
+            <tr>
+                <td>{{ produto.nome_produto }}</td>
+                <td>{{ produto.quantidade_estoque }}</td>
+                <td>{{ produto.categoria }}</td>
+                <td>
+                    {% if produto.disponivel %}
+                        <i class="fas fa-check-circle text-success"></i> <!-- Ícone positivo -->
+                    {% else %}
+                        <i class="fas fa-times-circle text-danger"></i> <!-- Ícone negativo -->
+                    {% endif %}
+                </td>
+                <td><a href="{% url 'editar-produto' produto.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a></td>
+                <td><a href="{% url 'excluir-produto' produto.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a></td>
+            </tr>
+            {% endfor %}
+            {% if not object_list %}
+            <tr>
+                <td colspan="6">Nenhum produto cadastrado.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

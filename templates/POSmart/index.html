@@ -1,15 +1,28 @@
-<!-- base.html -->
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Stock</title>
-</head>
-<body>
-    <a href="/stock/">Tela inicial</a>
-    <a href="/stock/produtos">Produtos</a>
-
-    {% block content %}
-    {% endblock %}
-</body>
-</html>
+{% extends 'POSmart/base.html' %}
+{% load static %}
+{% block content %}
+    {% if user.is_authenticated %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 content-box text-center p-5">
+                <h2 class="mb-4">Bem-vindo ao POSmart!</h2>
+                <p class="mb-4">Escolha uma opção:</p>
+                <a href="{% url 'produtos' %}" class="btn btn-success btn-lg btn-block">Gerenciar Estoque</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <style>
+        /* Estilo para o body com imagem de fundo */
+        body {
+            background-image: url("{% static 'images/decolar.png' %}");
+            background-size: cover; /* Redimensiona para cobrir toda a área */
+            background-repeat: no-repeat; /* Evita a repetição da imagem */
+            /* Outros estilos necessários... */
+        }
+    </style>
+            <div class="position-absolute bottom-0 start-0 p-3">
+                <a href="#" class="btn btn-danger btn-lg">Entrar em Contato</a>
+            </div>
+    {% endif %}
+{% endblock %}
