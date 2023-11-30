@@ -12,7 +12,7 @@
             <tr>
                 <th>Nome</th>
                 <th>Quantidade</th>
-                <th>Categoria</th>
+                <th>Valor Venda</th>
                 <th>Disponível</th>
                 <th>Editar</th>
                 <th>Excluir</th>
@@ -23,7 +23,7 @@
             <tr>
                 <td>{{ produto.nome_produto }}</td>
                 <td>{{ produto.quantidade_estoque }}</td>
-                <td>{{ produto.categoria }}</td>
+                <td>R${{ produto.valor_venda }}</td>
                 <td>
                     {% if produto.disponivel %}
                         <i class="fas fa-check-circle text-success"></i> <!-- Ícone positivo -->
