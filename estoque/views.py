@@ -26,7 +26,7 @@ class ProdutoCreate(PermissionRequiredMixin, CreateView):
     login_url = reverse_lazy('login')   
     model = Produto
     permission_required = "estoque.add_produto"
-    fields = ['nome_produto', 'categoria', 'quantidade_estoque', 'valor_custo', 'valor_venda', 'disponivel']
+    fields = ['nome_produto', 'categoria', 'quantidade_estoque', 'valor_custo', 'valor_venda', 'disponivel','imagem_produto']
     template_name = 'estoque/form.html'
     success_url = reverse_lazy('produtos')
 
@@ -42,7 +42,7 @@ class CategoriaUpdate(LoginRequiredMixin, UpdateView):
 class ProdutoUpdate(LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy('login')
     model = Produto
-    fields = ['nome_produto', 'categoria', 'quantidade_estoque', 'valor_custo', 'valor_venda', 'disponivel']
+    fields = ['nome_produto', 'categoria', 'quantidade_estoque', 'valor_custo', 'valor_venda', 'disponivel','imagem_produto']
     template_name = 'estoque/form.html'
     success_url = reverse_lazy('produtos')
 

@@ -12,7 +12,7 @@
             <tr>
                 <th>Nome</th>
                 <th>Quantidade</th>
-                <th>Valor Venda</th>
+                <th>Categoria</th>
                 <th>Disponível</th>
                 <th>Editar</th>
                 <th>Excluir</th>
@@ -23,7 +23,7 @@
             <tr>
                 <td>{{ produto.nome_produto }}</td>
                 <td>{{ produto.quantidade_estoque }}</td>
-                <td>R${{ produto.valor_venda }}</td>
+                <td>{{ produto.categoria }}</td>
                 <td>
                     {% if produto.disponivel %}
                         <i class="fas fa-check-circle text-success"></i> <!-- Ícone positivo -->
@@ -33,6 +33,14 @@
                 </td>
                 <td><a href="{% url 'editar-produto' produto.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a></td>
                 <td><a href="{% url 'excluir-produto' produto.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a></td>
+                <td>
+                    {% if produto.imagem_produto %}
+                        <img src="{{ produto.imagem_produto.url }}" alt="{{ produto.nome_produto }}" style="object-fit: cover; width: 100px; height: 100px;">
+                    {% else %}
+                        <!-- Caso não haja imagem, exiba uma mensagem ou deixe em branco -->
+                        Sem imagem
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
             {% if not object_list %}

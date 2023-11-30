@@ -2,6 +2,10 @@ from django.urls import path
 
 from . import views
 
+from django.conf import settings
+
+from django.conf.urls.static import static
+
 urlpatterns = [
     path("", views.index, name="indexEstoque"),
     # path("produtos",views.produtos_view, name="produtos"),
@@ -16,3 +20,6 @@ urlpatterns = [
     path("produto/<int:pk>/excluir", views.ProdutoDelete.as_view(), name="excluir-produto"),
     path("produtos", views.ProdutoList.as_view(), name="produtos"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
