@@ -1,0 +1,39 @@
+{% extends 'POSmart/base.html' %}
+{% block title %}
+    {{ titulo }}
+{% endblock %}
+
+{% block content %}
+<br>
+<h3>Lista de Categorias Cadastradas</h3>
+<a href="{% url 'cadastrar-categoria' %}" class="btn btn-primary">Cadastrar Categoria</a>
+
+<hr>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome da Categoria</th>
+                <!-- Adicione mais colunas conforme necessário -->
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categoria in object_list %}
+            <tr>
+                <td>{{ categoria.nome_categoria }}</td>
+                <!-- Adicione mais células conforme necessário -->
+                <td><a href="{% url 'editar-categoria' categoria.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a></td>
+                <td><a href="{% url 'excluir-categoria' categoria.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a></td>
+            </tr>
+            {% endfor %}
+            {% if not object_list %}
+            <tr>
+                <td colspan="3">Nenhuma categoria cadastrada.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

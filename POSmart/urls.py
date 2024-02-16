@@ -5,11 +5,12 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path("", views.index, name="mainIndex" ),
+    path("", views.index, name="mainIndex",),
     path("estoque/", include("estoque.urls")),
     path('admin/', admin.site.urls),
     path("accounts/", include('django.contrib.auth.urls')),
     path("funcionarios/", include("funcionarios.urls")),
+    path("vendas/", include("vendas.urls")),
 ]
 
 if settings.DEBUG:

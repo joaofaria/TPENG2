@@ -1,13 +1,63 @@
 {% extends 'POSmart/base.html' %}
 {% load static %}
+
 {% block content %}
     {% if user.is_authenticated %}
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6 content-box text-center p-5">
+            <div class="col-md-12 content-box text-center p-5">
                 <h2 class="mb-4">Bem-vindo ao POSmart!</h2>
                 <p class="mb-4">Escolha uma opção:</p>
-                <a href="{% url 'produtos' %}" class="btn btn-success btn-lg btn-block">Gerenciar Estoque</a>
+                <div class="row">
+                    <div class="col-3">
+                        <div class='icone-menu d-flex flex-column justify-content-between h-100'>
+                            <a href="{% url 'produtos' %}" class="btn btn-dark btn-lg btn-square" role="button">
+                                <div class="row">
+                                    <i class="fas fa-archive btn-icon fa-3x"></i> <!-- Ícone -->
+                                </div>
+                                <div class="row mt-2"> <!-- Adiciona uma margem superior de 2 unidades -->
+                                    <span class="btn-text">Gerenciar Produtos</span> 
+                                </div>
+                            </a>                            
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class='icone-menu d-flex flex-column justify-content-between h-100'>
+                            <a href="{% url 'vendas' %}" class="btn btn-dark btn-lg btn-square" role="button">
+                                <div class="row">
+                                    <i class="fas fa-tag btn-icon fa-3x"></i> <!-- Ícone -->
+                                </div>
+                                <div class="row mt-2"> <!-- Adiciona uma margem superior de 2 unidades -->
+                                    <span class="btn-text">Gerenciar Vendas</span> 
+                                </div>
+                            </a>                            
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class='icone-menu d-flex flex-column justify-content-between h-100'>
+                            <a href="{% url 'equipe' %}" class="btn btn-dark btn-lg btn-square" role="button">
+                                <div class="row">
+                                    <i class="fas fa-users btn-icon fa-3x"></i> <!-- Ícone -->
+                                </div>
+                                <div class="row mt-2"> <!-- Adiciona uma margem superior de 2 unidades -->
+                                    <span class="btn-text">Gerenciar Funcionarios</span> 
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class='icone-menu d-flex flex-column justify-content-between h-100'>
+                            <a href="{% url 'relatorios' %}" class="btn btn-dark btn-lg btn-square" role="button">
+                                <div class="row">
+                                    <i class="fas fa-file-text btn-icon fa-3x"></i> <!-- Ícone -->
+                                </div>
+                                <div class="row mt-2"> <!-- Adiciona uma margem superior de 2 unidades -->
+                                    <span class="btn-text">Gerenciar Relatórios</span> 
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -21,8 +71,11 @@
             /* Outros estilos necessários... */
         }
     </style>
-            <div class="position-absolute bottom-0 start-0 p-3">
-                <a href="#" class="btn btn-danger btn-lg">Entrar em Contato</a>
-            </div>
+    <div class="position-absolute bottom-0 start-0 p-3">
+        <a href="#" class="btn btn-danger btn-lg btn-square">
+            <i class="fas fa-phone btn-icon"></i> <!-- Ícone -->
+            <span class="btn-text">Entrar em Contato</span> <!-- Texto informativo -->
+        </a>
+    </div>
     {% endif %}
 {% endblock %}

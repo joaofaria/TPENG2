@@ -1,0 +1,51 @@
+{% extends 'POSmart/base.html' %}
+
+{% block content %}
+<br>
+<h3>Lista de Usuários Cadastrados</h3>
+<a href="{% url 'cadastrar-usuario' %}" class="btn btn-primary">Cadastrar usuário</a>
+<a href="{% url 'grupos' %}" class="btn btn-primary">Gerenciar Grupos</a>
+
+<hr>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Grupo</th>
+                <th>Ativo</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in object_list %}
+            <tr>
+                <td>{{ usuario.username }}</td>
+                <td>
+                    {% if usuario.groups.all %}
+                        {{ usuario.groups.all.0.name }}
+                    {% else %}
+                        Sem grupo
+                    {% endif %}
+                </td>
+                <td>
+                    {% if usuario.is_active %}
+                        <i class="fas fa-check-circle text-success"></i>
+                    {% else %}
+                        <i class="fas fa-times-circle text-danger"></i>
+                    {% endif %}
+                </td>
+                <td><a href="{% url 'editar-usuario' usuario.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a></td>
+                <td><a href="{% url 'excluir-usuario' usuario.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a></td>
+            </tr>
+            {% endfor %}
+            {% if not object_list %}
+            <tr>
+                <td colspan="5">Nenhum usuário cadastrado.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

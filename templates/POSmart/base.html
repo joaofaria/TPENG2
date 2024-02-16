@@ -6,7 +6,7 @@
   {% load bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
-  <title>Início</title>
+  <title>{% block title %}Início{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'fa/css/all.min.css' %}">
   <style>
     /* Estilos CSS personalizados */
@@ -19,53 +19,70 @@
   </style>
 </head>
 
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="{% static 'images/icone.png' %}" alt="Logo da Empresa" id='logo'></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            {% if user.is_authenticated %}
-            <li class="nav-item  me-3">
-              <a class="nav-link" href="{% url 'mainIndex'%}">Início</a>
-            </li>
-            <li class="nav-item  me-3">
-              <a class="nav-link" href="{% url 'produtos'%}">Produtos</a>
-            </li>
-            <li class="nav-item me-3">
-              <a class="nav-link" href="{% url 'indexFuncionarios'%}">Vendas</a>
-            </li>
-            <li class="nav-item me-3">
-              <a class="nav-link" href="{% url 'indexFuncionarios'%}">Usuários</a>
-            </li>
-            <li class="nav-item me-3">
-              <a class="nav-link" href="{% url 'indexFuncionarios'%}">Relatórios</a>
-            </li>
-            
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'mainIndex' %}">
+        <img src="{% static 'images/icone.png' %}" alt="Logo da Empresa" id='logo'>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% if user.is_authenticated %}
+          <li class="nav-item me-3">
+            <a class="nav-link" href="{% url 'mainIndex'%}">Início</a>
+          </li>
+          <li class="nav-item me-3 dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Estoque
+            </a>
+            <!-- Adicione um submenu -->
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'produtos'%}">Todos os Produtos</a></li>
+              <li><a class="dropdown-item" href="{% url 'categorias'%}">Todas as Categorias</a></li>
+              <!-- Adicione mais itens conforme necessário -->
+            </ul>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link" href="{% url 'vendas'%}">Vendas</a>
+          </li>
+          <li class="nav-item me-3 dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Funcionários
+            </a>
+            <!-- Adicione um submenu -->
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'equipe'%}">Todos os Funcionários</a></li>
+              <li><a class="dropdown-item" href="{% url 'grupos'%}">Todos os Grupos</a></li>
+              <!-- Adicione mais itens conforme necessário -->
+            </ul>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link" href="{% url 'relatorios'%}">Relatórios</a>
+          </li>
           </ul>
-            <span class="navbar-text">
-              <a class="nav-link " href="{% url 'logout' %}">{{ user.username }} | Sair</a>
-            </span>
-            {% else %}
-            <li class="nav-item me-3">
-              <a class="nav-link" href="{% url 'mainIndex'%}">Início</a>
-            </li>
-            <li class="nav-item me-3">
-              <a class="nav-link" href="{% url 'produtos'%}">Contato</a>
-            </li>
-            <li class="nav-item me-3">
-              <a class="nav-link" href="{% url 'indexFuncionarios'%}">Equipe</a>
-            </li>
-            <li class="nav-item me-3">
-              <a class="nav-link" href="{% url 'indexFuncionarios'%}">Sobre</a>
-            </li>
+          <span class="navbar-text">
+            <a class="nav-link " href="{% url 'logout' %}">{{ user.username }} | Sair</a>
+          </span>
+          {% else %}
+          <li class="nav-item me-3">
+            <a class="nav-link" href="{% url 'mainIndex'%}">Início</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link" href="{% url 'produtos'%}">Contato</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link" href="{% url 'indexFuncionarios'%}">Equipe</a>
+          </li>
+          <li class="nav-item me-3">
+            <a class="nav-link" href="{% url 'indexFuncionarios'%}">Sobre</a>
+          </li>
           </ul>
           <span class="navbar-text">
             <a class="btn btn-outline-success " href="{% url 'login' %}">Entrar</a>
-            <a class="btn btn-success " href="{% url 'login' %}">Criar minha Conta</a>
+            <a class="btn btn-success " href="{% url 'cadastrar-usuario' %}">Criar minha Conta</a>
           </span>
           {% endif %}
         </div>

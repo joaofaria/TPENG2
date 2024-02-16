@@ -1,10 +1,13 @@
 {% extends 'POSmart/base.html' %}
+{% block title %}
+    {{ titulo }}
+{% endblock %}
 
 {% block content %}
 <br>
-<h3>Lista de produtos cadastrados</h3>
+<h3>Lista de Produtos Cadastrados</h3>
 <a href="{% url 'cadastrar-produto' %}" class="btn btn-primary">Cadastrar produto</a>
-<a href="{% url 'cadastrar-categoria' %}" class="btn btn-primary">Criar categoria</a>
+<a href="{% url 'categorias' %}" class="btn btn-primary">Gerenciar categorias</a>
 <hr>
 <div class="table-responsive">
     <table class="table table-striped">
@@ -22,7 +25,7 @@
             {% for produto in object_list %}
             <tr>
                 <td>{{ produto.nome_produto }}</td>
-                <td>{{ produto.quantidade_estoque }}</td>
+                <td class="text-center">{{ produto.quantidade_estoque }}</td>
                 <td>{{ produto.categoria }}</td>
                 <td>
                     {% if produto.disponivel %}
@@ -35,7 +38,9 @@
                 <td><a href="{% url 'excluir-produto' produto.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a></td>
                 <td>
                     {% if produto.imagem_produto %}
-                        <img src="{{ produto.imagem_produto.url }}" alt="{{ produto.nome_produto }}" style="object-fit: cover; width: 100px; height: 100px;">
+                        <div style="width: 100px; height: 100px; overflow: hidden; position: relative;">
+                            <img src="{{ produto.imagem_produto.url }}" alt="{{ produto.nome_produto }}" style="object-fit: contain; width: 100%; height: 100%;">
+                        </div>
                     {% else %}
                         <!-- Caso não haja imagem, exiba uma mensagem ou deixe em branco -->
                         Sem imagem

@@ -1,0 +1,47 @@
+{% extends 'POSmart/base.html' %}
+
+{% block content %}
+<br>
+<h3>Lista de Vendas Realizadas</h3>
+<a href="{% url 'cadastrar-venda' %}" class="btn btn-primary">Cadastrar venda</a>
+<a href="{% url 'sistema' %}" class="btn btn-primary">Abrir Sistema</a>
+
+<hr>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Produtos</th>
+                <th>Vendedor</th>
+                <th>Valor Total</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for venda in object_list %}
+            <tr>
+                <td>{{ venda.data_venda|date:'Y-m-d' }}</td>
+                <td>
+                    {% for item in venda.itemvenda_set.all %}
+                    {{ item.produto.nome_produto }} (Quantidade: {{ item.quantidade }})<br>
+                    {% endfor %}
+                </td>
+                <td>{{ venda.funcionario.username }}</td>
+                <td>{{ venda.total }}</td>
+                <td><a href="{% url 'editar-venda' venda.id %}" class="btn btn-warning btn-sm"><i
+                            class="fas fa-edit"></i></a></td>
+                <td><a href="{% url 'excluir-venda' venda.id %}" class="btn btn-danger btn-sm"><i
+                            class="fas fa-trash-alt"></i></a></td>
+            </tr>
+            {% endfor %}
+            {% if not object_list %}
+            <tr>
+                <td colspan="6">Nenhuma venda cadastrada.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

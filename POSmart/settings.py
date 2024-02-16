@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6h)2%vq0_k6%=z!03f7b-)qki95m)&d&l7ru=c=lzfv&t6at1o
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "estoque.apps.EstoqueConfig",
     "funcionarios.apps.FuncionariosConfig",
     "administracao.apps.AdministracaoConfig",
+    "vendas.apps.VendasConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -128,7 +129,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-ALLOWED_HOSTS=["127.0.0.1", "192.168.8.13", "localhost"]
+ALLOWED_HOSTS=["127.0.0.1", "192.168.0.199", "localhost"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

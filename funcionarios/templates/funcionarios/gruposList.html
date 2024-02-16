@@ -1,0 +1,40 @@
+{% extends 'POSmart/base.html' %}
+
+{% block content %}
+<br>
+<h3>Lista de Grupos Cadastrados</h3>
+<a href="{% url 'criar-grupo' %}" class="btn btn-primary">Criar Grupo</a>
+
+<hr>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome do Grupo</th>
+                <th>Permissões</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grupo in object_list %}
+            <tr>
+                <td>{{ grupo.name }}</td>
+                <td>
+                    {% for permission in grupo.permissions.all %}
+                        {{ permission.name }}<br>
+                    {% endfor %}
+                </td>
+                <td><a href="{% url 'editar-grupo' grupo.id %}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></a></td>
+                <td><a href="{% url 'excluir-grupo' grupo.id %}" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a></td>
+            </tr>
+            {% endfor %}
+            {% if not object_list %}
+            <tr>
+                <td colspan="4">Nenhum grupo cadastrado.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

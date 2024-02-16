@@ -1,16 +1,12 @@
 {% extends 'POSmart/base.html' %}
 
-{% block title %}
-    {{ titulo }}
-{% endblock %}
-
 {% block content %}
 <br>
 <div class="container">
-    <h3 class="mt-4">Excluir Registro</h3>
+    <h3 class="mt-4">Excluir Usuário</h3>
 
     <form method="post" class="mt-4">
-        <p class="lead">Tem certeza que deseja excluir <strong>{{ object }}</strong>?</p>
+        <p class="lead">Tem certeza que deseja excluir o usuário <strong>{{ object }}</strong>?</p>
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-danger">Excluir</button>

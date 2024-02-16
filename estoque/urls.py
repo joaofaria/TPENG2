@@ -12,6 +12,7 @@ urlpatterns = [
     path("teste",views.teste, name="teste"),
     
     path("categoria/cadastrar", views.CategoriaCreate.as_view(), name="cadastrar-categoria"),
+    path("categorias", views.CategoriaList.as_view(), name="categorias"),
     path("categoria/<int:pk>/editar", views.CategoriaUpdate.as_view(), name="editar-categoria"),
     path("categoria/<int:pk>/excluir", views.CategoriaDelete.as_view(), name="excluir-categoria"),
 

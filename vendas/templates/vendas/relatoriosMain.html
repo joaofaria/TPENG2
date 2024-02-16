@@ -1,0 +1,40 @@
+{% extends 'POSmart/base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12 content-box text-center p-5">
+            <h2 class="mb-4">Bem-vindo ao POSmart!</h2>
+            <p class="mb-4">Escolha uma opção:</p>
+            <div class="row">
+                <div class="col-6">
+                    <div class='icone-menu d-flex flex-column justify-content-between h-100'>
+                        <a href="{% url 'relatorio_vendas_dia_mes' %}" class="btn btn-dark btn-lg btn-square" role="button">
+                            <div class="row">
+                                <i class="fas fa-users btn-icon fa-3x"></i> <!-- Ícone -->
+                            </div>
+                            <div class="row mt-2"> <!-- Adiciona uma margem superior de 2 unidades -->
+                                <span class="btn-text">Relatório de Vendas/Dia/Mes</span> 
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class='icone-menu d-flex flex-column justify-content-between h-100'>
+                        <a href="{% url 'relatorio_vendas_funcionario_mes' %}" class="btn btn-dark btn-lg btn-square" role="button">
+                            <div class="row">
+                                <i class="fas fa-file-text btn-icon fa-3x"></i> <!-- Ícone -->
+                            </div>
+                            <div class="row mt-2"> <!-- Adiciona uma margem superior de 2 unidades -->
+                                <span class="btn-text">Relatório de Vendas/Funcionario/Mes</span> 
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

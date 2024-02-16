@@ -1,12 +1,5 @@
 {% extends 'POSmart/base.html' %}
-
 {% load crispy_forms_tags %}
-
-{% block title %}
-    {{ titulo }}
-{% endblock %}
-
-
 {% block content %}
 
 <br>
@@ -14,14 +7,23 @@
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    
+
     <!-- Melhorar a Experiência do Usuário com Ícones -->
     <div class="form-group">
         {{ form|crispy }}
+
+        <!-- Adicione aqui os produtos disponíveis -->
+        <label>Produtos Selecionados:</label>
+        <ul>
+            {% for item in venda.itemvenda_set.all %}
+                <li>{{ item.produto }} - Quantidade: {{ item.quantidade }}</li>
+            {% endfor %}
+        </ul>
+
     </div>
 
     <hr>
-    
+
     <!-- Adicionar Estilo ao Botão de Salvar -->
     <button type="submit" class="btn btn-success btn-lg">
         <!-- Adicionar Ícone ao Botão -->

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <title>Início</title>
+    <link rel="stylesheet" href="{% static 'fa/css/all.min.css' %}">
+    <style>
+        /* Estilos CSS personalizados */
+        #logo {
+            max-height: 40px;
+            /* Ajuste a altura conforme necessário */
+        }
+
+        .navbar {
+            background-color: #343a40;
+            /* Cor de fundo escura */
+        }
+    </style>
+</head>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'mainIndex' %}"><img src="{% static 'images/icone.png' %}"
+                    alt="Logo da Empresa" id='logo'></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+</header>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .container {
+        margin-top: 20px;
+    }
+
+    hr {
+        border: 1px solid #007bff;
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    #cupomFiscal {
+        height: 300px;
+        /* Altura máxima da lista de produtos */
+        overflow-y: auto;
+        /* Adiciona rolagem vertical quando necessário */
+    }
+
+    #listaProdutos,
+    #carrinho {
+        margin-top: 10px;
+    }
+
+    #valorVenda {
+        color: #28a745;
+        font-weight: bold;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+    }
+
+    #ultimoProduto {
+        margin-top: 20px;
+    }
+</style>
+
+<div class="container">
+    <h2>Venda</h2>
+    <div id="ultimoProduto" class="mt-4">
+        <!-- Último Produto Pesquisado -->
+        <h1>
+            <div id="infoUltimoProduto">Produto</div>
+        </h1>
+    </div>
+    <!-- Lista de Produtos -->
+    <div id="cupomFiscal" class="mt-4">
+        <h3>Cupom Fiscal</h3>
+        <hr>
+        <ul class="list-group">
+            <!-- Produtos serão adicionados dinamicamente aqui -->
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-6">Produto</div>
+                    <div class="col-md-3">Quantidade</div>
+                    <div class="col-md-3">Preço</div>
+                </div>
+            </li>
+        </ul>
+        <hr>
+    </div>
+
+
+    <form id="formBuscarProduto" onsubmit="buscarProduto(); return false;">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="codigoBarras">Código de Barras:</label>
+                <input type="text" class="form-control" id="codigoBarras">
+            </div>
+            <div class="col-md-6">
+                <div class="mt-4" id="valorVenda">
+                    <!-- Total da Venda -->
+                    <h1 id="totalVenda">Total da Venda: <br>R$<span>0.00</span></h1>
+                </div>
+            </div>
+        </div>
+    </form>
+    <button class="btn btn-success mt-4" onclick="openFormaPagamentoModal()">Escolher Forma de Pagamento</button>
+    <div class="modal" tabindex="-1" role="dialog" id="formaPagamentoModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Escolha a Forma de Pagamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="credito">Cartão de Crédito:</label>
+                    <input type="number" class="form-control" id="credito" placeholder="Valor em reais"
+                        oninput="atualizarValorPagoModal()">
+
+                    <label for="debito">Cartão de Débito:</label>
+                    <input type="number" class="form-control" id="debito" placeholder="Valor em reais"
+                        oninput="atualizarValorPagoModal()">
+                    <label for="dinheiro">Dinheiro:</label>
+                    <input type="number" class="form-control" id="dinheiro" placeholder="Valor em reais"
+                        oninput="atualizarValorPagoModal()">
+
+                    <label for="valorRestante">Valor Restante:</label>
+                    <p id="valorRestante">R$ 0.00</p>
+                    <label for="valorRestante">Valor Pago:</label>
+                    <p id="valorPagoModal">R$ 0.00</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="adicionarFormaPagamento()">Adicionar Forma de
+                        Pagamento</button>
+                    <button type="button" class="btn btn-secondary"
+                        onclick="fecharFormaPagamentoModal()">Fechar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-success mt-4" onclick="finalizarVenda(carrinho)">Finalizar Venda</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // ... Seu código existente
+
+        // Adicione este bloco para lidar com o evento blur
+        $('#credito, #debito, #dinheiro').on('blur', function () {
+            atualizarValorPagoModal();
+        });
+    });
+    var carrinho = [];
+    var formasPagamento = [];
+    var valorFormasPagamentoModal = 0;
+    function buscarProduto() {
+        var codigoBarras = $('#codigoBarras').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "buscar_produto" %}',
+            data: { 'codigo_barras': codigoBarras },
+            success: function (data) {
+                if ('error' in data) {
+                    alert('Produto não encontrado');
+                } else {
+                    adicionarProdutoLista(data);
+                    // Adiciona automaticamente ao carrinho ao buscar o produto
+                    adicionarAoCarrinho(data);
+                    mostrarUltimoProduto(data);
+
+                    // Limpa o campo de código de barras após a busca
+                    $('#codigoBarras').val('');
+                    $('#codigoBarras').focus();
+                    $('#valorFormasPagamentoModal').val('');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro ao buscar o produto:', xhr.responseText);
+                alert('Erro ao buscar o produto');
+            }
+        });
+    }
+
+    function adicionarProdutoLista(produto) {
+        // Adiciona o produto à lista de produtos no cupom
+        if (produto.preco !== undefined) {
+            $('#cupomFiscal ul').append(`
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-6">${produto.nome}</div>
+                    <div class="col-md-3">1</div>
+                    <div class="col-md-3">R$ ${produto.preco}</div>
+                </div>
+            </li>
+        `);
+
+            // Atualiza o valor total do cupom
+            atualizarTotalCupom(parseFloat(produto.preco));
+
+            // Rola automaticamente para baixo
+            rolarParaBaixoCupom();
+        } else {
+            console.error('Erro: valor de venda não definido para o produto:', produto);
+            // Trate o caso em que valor_venda é indefinido
+        }
+    }
+
+    function adicionarAoCarrinho(produto) {
+        // Adiciona o produto ao carrinho
+        var produto_id = produto.id;
+        var quantidade = 1;
+
+        carrinho.push(`${produto_id}-${quantidade}`);
+    }
+
+    function adicionarFormaPagamento() {
+        // Obtém os valores inseridos para cada forma de pagamento
+        var valorCredito = parseFloat($('#credito').val()) || 0;
+        var valorDebito = parseFloat($('#debito').val()) || 0;
+        var valorDinheiro = parseFloat($('#dinheiro').val()) || 0;
+
+        // Calcula o valor total das formas de pagamento
+        var valorFormasPagamento = valorCredito + valorDebito + valorDinheiro;
+
+        // Calcula o valor restante da venda
+        var valorTotalVenda = parseFloat($('#totalVenda span').text());
+        var valorPago = formasPagamento.reduce((total, forma) => total + Object.values(forma).reduce((acc, curr) => acc + curr, 0), 0);
+        var valorRestante = Math.max(0, valorTotalVenda - valorPago);
+
+        // Atualiza o valor pago na tela
+        $('#valorPago span').text(valorPago.toFixed(2));
+
+        // Verifica se o valor total das formas de pagamento não excede o valor restante
+        if (valorFormasPagamento > valorRestante) {
+            alert('O valor das formas de pagamento excede o valor restante da venda. Por favor, ajuste as formas de pagamento.');
+            return;
+        }
+
+        // Adiciona as formas de pagamento à lista
+        var formasPagamentoSelecionadas = {
+            credito: valorCredito,
+            debito: valorDebito,
+            dinheiro: valorDinheiro
+        };
+
+        formasPagamento.push(formasPagamentoSelecionadas);
+
+        // Limpa os campos de forma de pagamento
+        $('#credito, #debito, #dinheiro').val('');
+
+        // Fecha o modal
+        $('#formaPagamentoModal').modal('hide');
+    }
+
+    function rolarParaBaixoCupom() {
+        // Rola para baixo a div #cupomFiscal
+        var cupomFiscal = $('#cupomFiscal');
+        cupomFiscal.animate({ scrollTop: cupomFiscal.prop('scrollHeight') }, 500);
+    }
+
+
+
+    function mostrarUltimoProduto(produto) {
+        // Mostra as informações do último produto pesquisado
+        $('#infoUltimoProduto').html(`<p>${produto.nome}</p>`);
+    }
+    function atualizarTotalCupom(valorProduto) {
+        // Obtém o valor atual do total do cupom
+        var totalAtualCupom = parseFloat($('#totalVenda span').text());
+
+        // Verifica se o totalAtualCupom é um número válido
+        if (!isNaN(totalAtualCupom)) {
+            // Calcula o novo total somando o valor do produto
+            var novoTotalCupom = totalAtualCupom + valorProduto;
+
+            // Atualiza o texto do total do cupom na tela
+            $('#totalVenda span').text(novoTotalCupom.toFixed(2));
+        } else {
+            console.error('Erro: Total do cupom não é um número válido.');
+        }
+    }
+
+
+    function finalizarVenda() {
+        var usuarioLogado = '{% if user.is_authenticated %}{{ user.username }}{% endif %}';
+        console.log('Usuário logado:', usuarioLogado);
+        console.log('Formas de Pagamento:', formasPagamento);
+        // Calcula o valor total da venda
+        var valorTotalVenda = parseFloat($('#totalVenda span').text());
+
+        // Calcula o valor pago
+        var valorPago = formasPagamento.reduce((total, forma) => total + Object.values(forma).reduce((acc, curr) => acc + curr, 0), 0);
+
+        // Verifica se o valor pago é diferente do valor total
+        if (valorPago !== valorTotalVenda) {
+            alert('O valor pago é diferente do valor total da venda. Por favor, ajuste as formas de pagamento.');
+            return;
+        }
+        // Chama a função finalizar_venda no servidor Django, passando formasPagamento
+        $.ajax({
+            type: 'POST',
+            url: '{% url "finalizar_venda" %}',
+            contentType: 'application/json',  // Adicione este cabeçalho
+            data: JSON.stringify({
+                'carrinho': carrinho,
+                'formas_pagamento': formasPagamento,
+                'usuario_logado': usuarioLogado
+            }),
+            success: function (data) {
+                console.log(data);
+                $('#codigoBarras').val('');
+                $('#codigoBarras').focus();
+                $('#valorFormasPagamentoModal').val('');
+                // Remove todos os itens da lista, exceto o primeiro
+                $('#cupomFiscal ul li:not(:first-child)').remove();
+
+                // Atualiza o valor total do cupom para zero
+                $('#totalVenda span').text('0.00');
+                // Limpa o valor restante e o valor pago no modal de forma de pagamento
+                $('#valorRestante').text('R$ 0.00');
+                $('#valorPagoModal').text('R$ 0.00');
+                // Limpa os campos de forma de pagamento
+                $('#credito, #debito, #dinheiro').val('');
+                carrinho = [];
+                formasPagamento = [];
+            },
+
+            error: function (xhr, status, error) {
+                console.error('Erro ao finalizar a venda:', xhr, status, error);
+                alert('Erro ao finalizar a venda');
+            }
+        });
+
+    }
+
+    function openFormaPagamentoModal() {
+        // Calcula o valor restante da venda
+        var valorTotalVenda = parseFloat($('#totalVenda span').text());
+        var valorPago = formasPagamento.reduce((total, forma) => total + Object.values(forma).reduce((acc, curr) => acc + curr, 0), 0);
+        var valorRestante = Math.max(0, valorTotalVenda - valorPago);
+
+        // Exibe o valor restante no modal
+        $('#valorRestante').text(`R$ ${valorRestante.toFixed(2)}`);
+
+        // Abre o modal
+        var formaPagamentoModal = new bootstrap.Modal(document.getElementById('formaPagamentoModal'));
+        formaPagamentoModal.show();
+    }
+
+    function fecharFormaPagamentoModal() {
+        $('#formaPagamentoModal').modal('hide');
+    }
+
+
+    function atualizarValorPagoModal() {
+        // Obtém os valores inseridos para cada forma de pagamento no modal
+        var valorCredito = parseFloat($('#credito').val()) || 0;
+        var valorDebito = parseFloat($('#debito').val()) || 0;
+        var valorDinheiro = parseFloat($('#dinheiro').val()) || 0;
+
+        // Calcula o valor total das formas de pagamento no modal
+        valorFormasPagamentoModal = valorCredito + valorDebito + valorDinheiro;
+
+        // Obtém o valor anterior pago
+        var valorAnterior = parseFloat($('#valorPago span').text().replace('R$', '')) || 0;
+
+        // Soma o valor anterior ao novo valor
+        var novoValorPago = valorAnterior + valorFormasPagamentoModal;
+
+        // Atualiza o valor pago no modal
+        $('#valorPagoModal').text(`${valorFormasPagamentoModal.toFixed(2)}`);
+
+        // Atualiza o valor pago na tela principal
+        $('#valorPago span').text(`R$ ${novoValorPago.toFixed(2)}`);
+    }
+
+
+</script>
