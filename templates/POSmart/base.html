@@ -62,6 +62,10 @@
           <li class="nav-item me-3">
             <a class="nav-link" href="{% url 'relatorios'%}">Relatórios</a>
           </li>
+
+          <li class="nav-item me-3">
+            <a class="nav-link" href="{% url 'encerrar_servidor' %}">Encerrar Servidor</a>
+          </li>
           </ul>
           <span class="navbar-text">
             <a class="nav-link " href="{% url 'logout' %}">{{ user.username }} | Sair</a>

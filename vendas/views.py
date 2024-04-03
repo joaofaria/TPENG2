@@ -199,3 +199,9 @@ class RelatoriosView(View):
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
+    
+import os
+from django.shortcuts import redirect
+
+def encerrar_servidor(request):
+    os._exit(0)  # Encerra o servidor

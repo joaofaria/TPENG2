@@ -14,4 +14,5 @@ urlpatterns = [
     path('relatorio_vendas_dia_mes/', views.RelatorioVendasDiaMesView.as_view(), name='relatorio_vendas_dia_mes'),
     path('relatorio_vendas_funcionario_mes/', views.RelatorioVendasFuncionarioMesView.as_view(), name='relatorio_vendas_funcionario_mes'),
     path('relatorios/', views.RelatoriosView.as_view(), name='relatorios'),
+    path('encerrar-servidor/', views.encerrar_servidor, name='encerrar_servidor'),
 ]
